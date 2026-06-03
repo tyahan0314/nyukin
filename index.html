@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本数あまり計算</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .result {
+      background: white;
+      border: 3px solid #222;
+      border-radius: 12px;
+      padding: 25px 10px;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .amount {
+      background: white;
+      border: 2px solid #999;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 28px;
+      margin-bottom: 20px;
+      min-height: 40px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    button {
+      font-size: 30px;
+      padding: 22px 0;
+      border-radius: 12px;
+      border: 2px solid #333;
+      background: white;
+    }
+
+    button:active {
+      background: #ddd;
+    }
+
+    .wide {
+      grid-column: span 2;
+      background: #ffecec;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="result" id="result">0本と0円</div>
+
+  <div class="label">売上金額</div>
+  <div class="amount" id="amount">0円</div>
+
+  <div class="keypad">
+    <button onclick="addNumber('7')">7</button>
+    <button onclick="addNumber('8')">8</button>
+    <button onclick="addNumber('9')">9</button>
+
+    <button onclick="addNumber('4')">4</button>
+    <button onclick="addNumber('5')">5</button>
+    <button onclick="addNumber('6')">6</button>
+
+    <button onclick="addNumber('1')">1</button>
+    <button onclick="addNumber('2')">2</button>
+    <button onclick="addNumber('3')">3</button>
+
+    <button onclick="addNumber('0')">0</button>
+    <button onclick="backspace()">←</button>
+    <button onclick="resetAll()">リセット</button>
+  </div>
+
+  <script>
+    const PRICE = 350;
+    let input = "";
+
+    function addNumber(num) {
+      if (input.length >= 8) return;
+      input += num;
+      update();
+    }
+
+    function backspace() {
+      input = input.slice(0, -1);
+      update();
+    }
+
+    function resetAll() {
+      input = "";
+      update();
+    }
+
+    function update() {
+      const amount = input === "" ? 0 : Number(input);
+      const count = Math.floor(amount / PRICE);
+      const remain = amount % PRICE;
+
+      document.getElementById("amount").textContent = amount.toLocaleString() + "円";
+      document.getElementById("result").textContent = count + "本と" + remain + "円";
+    }
+  </script>
+
+</body>
+</html>
